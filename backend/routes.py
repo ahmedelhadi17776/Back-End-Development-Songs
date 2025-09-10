@@ -45,9 +45,22 @@ db = client.songs
 db.songs.drop()
 db.songs.insert_many(songs_list)
 
+
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
 ######################################################################
 # INSERT CODE HERE
 ######################################################################
+
+
+@app.route("/health")
+def healthz():
+    return jsonify(dict(status="OK")), 200
+
+
+@app.route("/count")
+def count():
+    """return length of data"""
+    count = db.songs.count_documents({})
+    return {"count": count}, 200
